@@ -7,11 +7,17 @@
   border-bottom: 2px solid #ccc;
   display: flex;
   text-align: unset !important;
+  display: flex;
+  justify-content: space-between;
 }
 
 .TodoItem > p {
   margin: 0;
-  margin-left: 30px !important;
+  /* margin-left: 30px !important; */
+}
+
+.TodoItem .btn {
+  margin-left: 10px;
 }
 .TodoItem-complete {
   text-decoration: line-through;
