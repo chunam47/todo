@@ -6,31 +6,30 @@ const ToDoItem = (props) => {
   const [editingItem, seteditingItem] = useState(null);
   const [inputValue, setInputValue] = useState("");
 
-  function deleteItem(id) {
+  const deleteItem = (id) => {
     clickDelete(id);
-  }
+  };
 
-  function completeItem(id) {
+  const completeItem = (id) => {
     clickComplete(id);
-  }
+  };
 
-  function editItem(item) {
+  const editItem = (item) => {
     setisEditing(true);
     seteditingItem(item);
     setInputValue(item.title);
-  }
+  };
 
-  function saveEditItem(id) {
+  const saveEditItem = (id) => {
     setisEditing(false);
     clickEdit(id, inputValue);
     setInputValue("");
-  }
+  };
 
-  function cancelEditItem(id) {
+  const cancelEditItem = () => {
     setisEditing(false);
     setInputValue("");
-  }
-  console.log(props);
+  };
   return (
     <div className="main">
       {isEditing && editingItem === todo ? (
@@ -42,7 +41,7 @@ const ToDoItem = (props) => {
           ></input>
           <div>
             <button
-              onClick={() => cancelEditItem(todo.id)}
+              onClick={() => cancelEditItem()}
               className="btn complete btn-outline-info"
             >
               Cancel

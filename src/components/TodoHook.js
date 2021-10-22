@@ -3,42 +3,30 @@ import PropTypes from "prop-types";
 import "./TodoList.css";
 import ToDoItem from "./ToDoItem";
 
-TodoList.propTypes = {
-  todos: PropTypes.array,
-  onClickDone: PropTypes.func,
-  handleEdit: PropTypes.func,
-  onClickDelete: PropTypes.func,
-};
-TodoList.defaultProps = {
-  todos: [],
-  onClickDone: null,
-  handleEdit: null,
-  onClickDelete: null,
-};
-
-function TodoList(props) {
+const TodoList = (props) => {
   const { todos, onClickDone, handleEdit, onClickDelete } = props;
 
-  function handleDelete(id) {
+  const handleDelete = (id) => {
     onClickDelete(id);
-  }
-  function handleEditTodo(id, value) {
+  };
+  const handleEditTodo = (id, value) => {
     handleEdit(id, value);
-  }
-  function handleSave(id) {
+  };
+  const handleSave = (id) => {
     onClickDelete(id);
-  }
-  function handleCacelSave(id) {
+  };
+  const handleCacelSave = (id) => {
     onClickDelete(id);
-  }
-  function handleComplete(id) {
+  };
+  const handleComplete = (id) => {
     onClickDone(id);
-  }
+  };
 
   return (
     <div>
       {todos.map((todo) => (
         <ToDoItem
+          key={todo.id}
           todo={todo}
           clickDelete={handleDelete}
           clickEdit={handleEditTodo}
@@ -49,6 +37,6 @@ function TodoList(props) {
       ))}
     </div>
   );
-}
+};
 
 export default TodoList;
