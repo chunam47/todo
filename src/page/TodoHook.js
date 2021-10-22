@@ -46,13 +46,15 @@ function TodoHook() {
     setTodo(newTodo);
   }
 
-  function handleEdit(item, id) {
-    const newTodo = [...todoList];
-    newTodo.forEach((todo, index) => {
-      if (index === id) {
-        todo.title = item;
+  function handleEdit(id, value) {
+    const newTodo = todoList.map((todo, index) => {
+      if (todo.id === id && value.trim()) {
+        return {
+          ...todo,
+          title: value.trim(),
+        };
       }
-      console.log(index.id);
+      return todo;
     });
     setTodoList(newTodo);
     setTodo(newTodo);
@@ -126,7 +128,7 @@ function TodoHook() {
         todos={showTodo}
         onClickDone={handleDone}
         onClickDelete={handleDelete}
-        onClickEdit={handleEdit}
+        handleEdit={handleEdit}
       ></TodoList>
     </div>
   );

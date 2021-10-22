@@ -1,5 +1,5 @@
 .TodoItem {
-  font-family:'Courier New', Courier, monospace ;
+  font-family: "Courier New", Courier, monospace;
   font-weight: 300;
   font-size: 24px;
   color: #4d4d4d;
@@ -12,8 +12,9 @@
 }
 
 .TodoItem > p {
+  word-break: break-all;
   margin: 0;
-  /* margin-left: 30px !important; */
+  width: 320px;
 }
 
 .TodoItem .btn {
@@ -21,5 +22,5 @@
 }
 .TodoItem-complete {
   text-decoration: line-through;
-  opacity: .3;
+  opacity: 0.3;
 }

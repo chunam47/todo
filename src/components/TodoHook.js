@@ -5,55 +5,67 @@ import "./TodoList.css";
 TodoList.propTypes = {
   todos: PropTypes.array,
   onClickDone: PropTypes.func,
-  onClickEdit: PropTypes.func,
+  handleEdit: PropTypes.func,
   onClickDelete: PropTypes.func,
 };
 TodoList.defaultProps = {
   todos: [],
   onClickDone: null,
-  onClickEdit: null,
+  handleEdit: null,
   onClickDelete: null,
 };
 
 function TodoList(props) {
-  const { todos, onClickDone, onClickEdit, onClickDelete } = props;
-  const [editItem, setEditItem] = useState(false);
-  const [edittingText, setEdittingText] = useState(todos.title);
+  const { todos, onClickDone, handleEdit, onClickDelete } = props;
+  const [isEditing, setisEditing] = useState(false);
+  const [editingItem, seteditingItem] = useState(null);
+  const [inputValue, setInputValue] = useState("");
 
-  function onDelete(id) {
+  function deleteItem(id) {
     onClickDelete(id);
   }
 
-  function onComplete(id) {
+  function completeItem(id) {
     onClickDone(id);
   }
 
-  function onEdit() {
-    setEditItem(true);
+  function editItem(item) {
+    setisEditing(true);
+    seteditingItem(item);
+    setInputValue(item.title);
   }
 
-  function onSave(id) {
-    setEditItem(false);
-    if (edittingText) {
-      onClickEdit(edittingText, id);
-    } else {
-      setEdittingText(todos.title);
-    }
+  function saveEditItem(id) {
+    setisEditing(false);
+    handleEdit(id, inputValue);
+    setInputValue("");
+  }
+
+  function cancelEditItem(id) {
+    setisEditing(false);
+    setInputValue("");
   }
   return (
     <div>
       {todos.map((todo) => (
         <div className="main" key={todo.id}>
-          {editItem ? (
+          {isEditing && editingItem === todo ? (
             <div className="TodoItem">
               <input
                 type="text"
-                value={edittingText}
-                onChange={(e) => setEdittingText(e.target.value.toLowerCase())}
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value.toLowerCase())}
               ></input>
               <div>
                 <button
-                  onClick={() => onSave(todo.id)}
+                  onClick={() => cancelEditItem(todo.id)}
+                  className="btn complete btn-outline-info"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  onClick={() => saveEditItem(todo.id)}
                   className="btn complete btn-outline-info"
                 >
                   Save
@@ -71,19 +83,19 @@ function TodoList(props) {
               </p>
               <div>
                 <button
-                  onClick={() => onComplete(todo.id)}
+                  onClick={() => completeItem(todo.id)}
                   className="btn btn-outline-info complete"
                 >
                   Done
                 </button>
                 <button
-                  onClick={() => onEdit()}
+                  onClick={() => editItem(todo)}
                   className="btn complete btn-outline-info"
                 >
-                  {editItem ? "Save" : "Edit"}
+                  Edit
                 </button>
                 <button
-                  onClick={() => onDelete(todo.id)}
+                  onClick={() => deleteItem(todo.id)}
                   className="btn btn-outline-info delete-item"
                 >
                   Delete
