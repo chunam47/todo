@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "./TodoList.css";
+import ToDoItem from "./ToDoItem";
 
 TodoList.propTypes = {
   todos: PropTypes.array,
@@ -17,93 +18,34 @@ TodoList.defaultProps = {
 
 function TodoList(props) {
   const { todos, onClickDone, handleEdit, onClickDelete } = props;
-  const [isEditing, setisEditing] = useState(false);
-  const [editingItem, seteditingItem] = useState(null);
-  const [inputValue, setInputValue] = useState("");
 
-  function deleteItem(id) {
+  function handleDelete(id) {
     onClickDelete(id);
   }
-
-  function completeItem(id) {
+  function handleEditTodo(id, value) {
+    handleEdit(id, value);
+  }
+  function handleSave(id) {
+    onClickDelete(id);
+  }
+  function handleCacelSave(id) {
+    onClickDelete(id);
+  }
+  function handleComplete(id) {
     onClickDone(id);
   }
 
-  function editItem(item) {
-    setisEditing(true);
-    seteditingItem(item);
-    setInputValue(item.title);
-  }
-
-  function saveEditItem(id) {
-    setisEditing(false);
-    handleEdit(id, inputValue);
-    setInputValue("");
-  }
-
-  function cancelEditItem(id) {
-    setisEditing(false);
-    setInputValue("");
-  }
   return (
     <div>
       {todos.map((todo) => (
-        <div className="main" key={todo.id}>
-          {isEditing && editingItem === todo ? (
-            <div className="TodoItem">
-              <input
-                type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value.toLowerCase())}
-              ></input>
-              <div>
-                <button
-                  onClick={() => cancelEditItem(todo.id)}
-                  className="btn complete btn-outline-info"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  onClick={() => saveEditItem(todo.id)}
-                  className="btn complete btn-outline-info"
-                >
-                  Save
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div className="TodoItem">
-              <p
-                className={
-                  todo.isComplete ? "TodoItem-complete" : "TodoItem-noComplete"
-                }
-              >
-                {todo.title}
-              </p>
-              <div>
-                <button
-                  onClick={() => completeItem(todo.id)}
-                  className="btn btn-outline-info complete"
-                >
-                  Done
-                </button>
-                <button
-                  onClick={() => editItem(todo)}
-                  className="btn complete btn-outline-info"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => deleteItem(todo.id)}
-                  className="btn btn-outline-info delete-item"
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
+        <ToDoItem
+          todo={todo}
+          clickDelete={handleDelete}
+          clickEdit={handleEditTodo}
+          clickSave={handleSave}
+          clickCancelSave={handleCacelSave}
+          clickComplete={handleComplete}
+        />
       ))}
     </div>
   );
