@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import TodoList from "../components/TodoHook";
-import useLocalStorage from "../hook/useLocalStorage";
+
+import TodoList from "../../components/TodoHook/TodoHook";
+import useLocalStorage from "../../hook/useLocalStorage";
 import "./Todo.css";
+
 const { v4: uuidv4 } = require("uuid");
 
 function TodoHook() {
@@ -125,9 +127,9 @@ function TodoHook() {
         </div>
       </form>
       <TodoList
-        todos={showTodo}
-        onClickDone={handleDone}
-        onClickDelete={handleDelete}
+        toDos={showTodo}
+        handleDone={handleDone}
+        handleDelete={handleDelete}
         handleEdit={handleEdit}
       ></TodoList>
     </div>

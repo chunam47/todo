@@ -1,5 +1,5 @@
 import { Component } from "react";
-import TodoList from "../components/TodoList";
+import TodoList from "../../components/TodoClass/TodoList";
 import "./Todo.css";
 const { v4: uuidv4 } = require("uuid");
 class Todo extends Component {

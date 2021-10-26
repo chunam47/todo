@@ -1,28 +1,18 @@
 import React, { useState } from "react";
 
 const ToDoItem = (props) => {
-  const { todo, clickDelete, clickComplete, clickEdit } = props;
+  const { todo, actions } = props;
   const [isEditing, setisEditing] = useState(false);
-  const [editingItem, seteditingItem] = useState(null);
   const [inputValue, setInputValue] = useState("");
-
-  const deleteItem = (id) => {
-    clickDelete(id);
-  };
-
-  const completeItem = (id) => {
-    clickComplete(id);
-  };
 
   const editItem = (item) => {
     setisEditing(true);
-    seteditingItem(item);
     setInputValue(item.title);
   };
 
   const saveEditItem = (id) => {
     setisEditing(false);
-    clickEdit(id, inputValue);
+    actions.handleEdit(id, inputValue);
     setInputValue("");
   };
 
@@ -32,7 +22,7 @@ const ToDoItem = (props) => {
   };
   return (
     <div className="main">
-      {isEditing && editingItem === todo ? (
+      {isEditing ? (
         <div className="TodoItem">
           <input
             type="text"
@@ -66,7 +56,7 @@ const ToDoItem = (props) => {
           </p>
           <div>
             <button
-              onClick={() => completeItem(todo.id)}
+              onClick={() => actions.handleDone(todo.id)}
               className="btn btn-outline-info complete"
             >
               Done
@@ -78,7 +68,7 @@ const ToDoItem = (props) => {
               Edit
             </button>
             <button
-              onClick={() => deleteItem(todo.id)}
+              onClick={() => actions.handleDelete(todo.id)}
               className="btn btn-outline-info delete-item"
             >
               Delete
