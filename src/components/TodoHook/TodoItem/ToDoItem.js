@@ -21,9 +21,9 @@ const ToDoItem = (props) => {
     setInputValue("");
   };
   return (
-    <div className="main">
+    <div className="main row px-3 align-items-center todo-item rounded">
       {isEditing ? (
-        <div className="TodoItem">
+        <div className="TodoItem d-flex align-items-center">
           <input
             type="text"
             value={inputValue}
@@ -46,7 +46,7 @@ const ToDoItem = (props) => {
           </div>
         </div>
       ) : (
-        <div className="TodoItem">
+        <div className="TodoItem d-flex align-items-center">
           <p
             className={
               todo.isComplete ? "TodoItem-complete" : "TodoItem-noComplete"
@@ -54,7 +54,7 @@ const ToDoItem = (props) => {
           >
             {todo.title}
           </p>
-          <div>
+          <div className="d-flex action-button">
             <button
               onClick={() => actions.handleDone(todo.id)}
               className="btn btn-outline-info complete"

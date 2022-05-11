@@ -1,10 +1,17 @@
 .Todo {
+  background-color: floralwhite;
   font-weight: 300;
   font-size: 24px;
-  width: 600px;
+  /* width: 600px; */
   margin-left: auto;
   margin-right: auto;
   border: 1px solid #ccc;
+  position: relative;
+  top: -150px;
+}
+.todo-title {
+  color: deeppink;
+  text-transform: uppercase;
 }
 
 .Todo .button-todo {
@@ -13,10 +20,57 @@
   border-bottom: 1px solid #ccc;
   justify-content: space-between;
 }
-
 .Todo .button-todo .btn {
   font-size: 24px;
-  font-weight: 300;
+  font-weight: 400;
+  background-color: #19a0bb;
+  color: white;
+  text-transform: uppercase;
+}
+.btnAdd {
+  font-size: 24px;
+  font-weight: 400;
+  background-color: #19a0bb;
+  color: white;
+  border: 0;
+  border-radius: 10px;
+  padding: 0 10px 0 10px;
+}
+
+@media only screen and (max-width: 768px) {
+  .button-todo {
+    width: 100% !important;
+  }
+
+  .button-todo .btn {
+    margin-bottom: 5px !important;
+    font-size: 18px !important;
+  }
+
+  .todo-input {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+}
+@media only screen and (max-width: 468px) {
+  .button-todo {
+    width: 100% !important;
+  }
+
+  .button-todo .btn {
+    margin-bottom: 5px !important;
+    font-size: 14px !important;
+  }
+}
+@media only screen and (max-width: 390px) {
+  .button-todo {
+    width: 100% !important;
+  }
+
+  .button-todo .btn {
+    margin-bottom: 5px !important;
+    font-size: 10px !important;
+  }
 }
 
 .Todo .header {

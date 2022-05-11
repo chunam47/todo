@@ -4,7 +4,7 @@
   font-size: 24px;
   color: #4d4d4d;
   padding: 10px;
-  border-bottom: 2px solid #ccc;
+  border-bottom: 0.5px solid #ccc;
   display: flex;
   text-align: unset !important;
   display: flex;
@@ -15,6 +15,7 @@
   word-break: break-all;
   margin: 0;
   width: 320px;
+  color: black;
 }
 
 .TodoItem .btn {
@@ -23,4 +24,18 @@
 .TodoItem-complete {
   text-decoration: line-through;
   opacity: 0.3;
+}
+
+@media only screen and (max-width: 768px) {
+  .todo-block {
+    padding: 0 !important;
+  }
+}
+@media only screen and (max-width: 440px) {
+  .todo-block {
+    padding: 0 !important;
+  }
+  .action-button {
+    display: grid !important;
+  }
 }

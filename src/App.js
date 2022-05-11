@@ -1,14 +1,17 @@
 import React from "react";
-import { BrowserRouter as Router, Link, Route } from "react-router-dom";
+// import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 
 import "./App.css";
-import Todo from "./page/TodoClass/Todo";
+// import Todo from "./page/TodoClass/Todo";
 import TodoHook from "./page/TodoHook/TodoHook";
-import Todos from "./components/TodoContext/Todo";
+// import Todos from "./components/TodoContext/Todo";
+import Header from "./components/Header";
 function App() {
   return (
     <div className="App">
-      <Router>
+      <Header />
+      <TodoHook />
+      {/* <Router>
         <div>
           <div className="menu">
             <div>
@@ -31,7 +34,7 @@ function App() {
           <Route path="/todoContext" component={Todos} />
           <Route path="/todo" component={Todo} />
         </div>
-      </Router>
+      </Router> */}
     </div>
   );
 }
