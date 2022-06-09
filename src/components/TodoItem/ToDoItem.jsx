@@ -60,7 +60,7 @@ const ToDoItem = (props) => {
               onClick={() => actions.handleDone(todo)}
               className="btn btn-outline-info complete"
             >
-              Done
+              {todo.isComplete ? "Undone" : "Done"}
             </button>
             <button
               onClick={() => editItem(todo)}
