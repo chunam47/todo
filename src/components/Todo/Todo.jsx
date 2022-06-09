@@ -1,90 +1,93 @@
 import React, { useState } from "react";
 
+import { db } from "../../firebase";
+import {
+  collection,
+  query,
+  onSnapshot,
+  addDoc,
+  doc,
+  deleteDoc,
+  updateDoc,
+} from "firebase/firestore";
 import checkIcon from "../../assets/checkIcon.png";
-import TodoList from "../../components/TodoHook/TodoHook";
-import useLocalStorage from "../../hook/useLocalStorage";
 import "./Todo.css";
+import TodoList from "../TodoList/TodoList";
 
-const { v4: uuidv4 } = require("uuid");
-
-function TodoHook() {
-  const [todoList, setTodoList] = useLocalStorage("task", []);
+const Todo = () => {
   const [value, setValue] = useState("");
-  const [showTodo, setTodo] = useState(todoList);
+
+  const [todos, setTodos] = React.useState([]);
+
+  React.useEffect(() => {
+    const q = query(collection(db, "todo-list"));
+    const unsub = onSnapshot(q, (querySnapshot) => {
+      let todosArray = [];
+      querySnapshot.forEach((doc) => {
+        todosArray.push({ ...doc.data(), id: doc.id });
+      });
+      setTodos(todosArray);
+    });
+    return () => unsub();
+  }, []);
 
   function handleValueChange(event) {
     setValue(event.target.value);
   }
 
-  function handleSubmit(event) {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (value.trim()) {
-      const newTodo = {
-        title: value.trim(),
-        id: uuidv4(),
+      await addDoc(collection(db, "todo-list"), {
+        value,
         isComplete: false,
-      };
-      setTodoList([...todoList, newTodo]);
-      setTodo([...todoList, newTodo]);
+      });
       setValue("");
     }
-  }
-  function handleDone(id) {
-    const newItems = todoList.map((i) => {
-      if (i.id === id) {
-        return {
-          ...i,
-          isComplete: !i.isComplete,
-        };
-      }
-      return i;
+  };
+  const handleDone = async (todos) => {
+    await updateDoc(doc(db, "todo-list", todos.id), {
+      isComplete: !todos.isComplete,
     });
-    setTodoList(newItems);
-    setTodo(newItems);
-  }
+  };
 
-  function handleDelete(id) {
-    const newTodo = todoList.filter((item) => item.id !== id);
-    setTodoList(newTodo);
-    setTodo(newTodo);
-  }
+  const handleDelete = async (id) => {
+    await deleteDoc(doc(db, "todo-list", id));
+  };
 
-  function handleEdit(id, value) {
-    const newTodo = todoList.map((todo, index) => {
-      if (todo.id === id && value.trim()) {
-        return {
-          ...todo,
-          title: value.trim(),
-        };
-      }
-      return todo;
+  const handleEdit = async (todos, value) => {
+    await updateDoc(doc(db, "todo-list", todos.id), {
+      value: value.trim(),
     });
-    setTodoList(newTodo);
-    setTodo(newTodo);
-  }
-  function handleShowDone() {
-    const newTodo = [];
-    todoList.forEach((i) => {
-      if (i.isComplete === true) {
-        newTodo.push(i);
-      }
-      console.log(newTodo);
-      setTodo(newTodo);
-    });
-  }
-  function handleShowNotDone() {
-    const newTodo = [];
-    todoList.forEach((i) => {
-      if (i.isComplete === false) {
-        newTodo.push(i);
-      }
-      setTodo(newTodo);
-    });
-  }
+  };
+  // const handleShowDone = async (todos) => {
+  //   await todos.forEach((i) => {
+  //     if (i.isComplete === true) {
+  //       console.log("=====");
+  //     }
+  //   });
+  //   // const newTodo = [];
+  //   // todoList.forEach((i) => {
+  //   //   if (i.isComplete === true) {
+  //   //     newTodo.push(i);
+  //   //   }
+  //   //   console.log(newTodo);
+  //   //   setTodo(newTodo);
+  //   // });
+  // };
+  // function handleShowNotDone() {
+  //   // const newTodo = [];
+  //   // todoList.forEach((i) => {
+  //   //   if (i.isComplete === false) {
+  //   //     newTodo.push(i);
+  //   //   }
+  //   //   setTodo(newTodo);
+  //   // });
+  // }
 
-  function handleShowAll() {
-    setTodo(todoList);
-  }
+  // function handleShowAll() {
+  //   // setTodo(todoList);
+  // }
 
   return (
     <div className="Todo container m-5 p-2 rounded mx-auto shadow">
@@ -96,7 +99,7 @@ function TodoHook() {
               alt="check"
               className="las la-check text-white rounded p-2"
             ></img>
-            <u className="todo-title">My Todo-s</u>
+            <u className="todo-title">Chu's Todo-s</u>
           </div>
         </div>
       </div>
@@ -125,7 +128,7 @@ function TodoHook() {
           </div>
         </div>
         <div className="p-2 mx-4 border-black-25 border-bottom"></div>
-        <div className="button-todo col col-11 mx-auto">
+        {/* <div className="button-todo col col-11 mx-auto">
           <button className="btn" type="button" onClick={handleShowAll}>
             Show all
           </button>
@@ -135,16 +138,16 @@ function TodoHook() {
           <button className="btn" type="button" onClick={handleShowNotDone}>
             Show Unfinished
           </button>
-        </div>
+        </div> */}
       </form>
       <TodoList
-        toDos={showTodo}
+        toDos={todos}
         handleDone={handleDone}
         handleDelete={handleDelete}
         handleEdit={handleEdit}
       ></TodoList>
     </div>
   );
-}
+};
 
-export default TodoHook;
+export default Todo;

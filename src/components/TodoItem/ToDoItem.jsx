@@ -7,12 +7,12 @@ const ToDoItem = (props) => {
 
   const editItem = (item) => {
     setisEditing(true);
-    setInputValue(item.title);
+    setInputValue(item.value);
   };
 
-  const saveEditItem = (id) => {
+  const saveEditItem = (todo) => {
     setisEditing(false);
-    actions.handleEdit(id, inputValue);
+    actions.handleEdit(todo, inputValue);
     setInputValue("");
   };
 
@@ -39,7 +39,7 @@ const ToDoItem = (props) => {
             </button>
             <button
               type="submit"
-              onClick={() => saveEditItem(todo.id)}
+              onClick={() => saveEditItem(todo)}
               className="btn complete btn-outline-info"
             >
               Save
@@ -53,11 +53,11 @@ const ToDoItem = (props) => {
               todo.isComplete ? "TodoItem-complete" : "TodoItem-noComplete"
             }
           >
-            {todo.title}
+            {todo.value}
           </p>
           <div className="d-flex action-button">
             <button
-              onClick={() => actions.handleDone(todo.id)}
+              onClick={() => actions.handleDone(todo)}
               className="btn btn-outline-info complete"
             >
               Done
